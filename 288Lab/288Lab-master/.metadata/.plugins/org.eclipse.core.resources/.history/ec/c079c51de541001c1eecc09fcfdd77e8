@@ -1,0 +1,25 @@
+//#include "open_interface.h"
+//#include "timer.h"
+//#include "lcd.h"
+//#include "movement.h"
+//#include "cyBot_uart.h"
+//#include "cyBot_Scan.h"
+//#include "uart.h"
+//#include "mission_helper.h"
+//#include "adc.h"
+#include "ping.h"
+
+
+
+void main()
+{
+    int ping_distance = 0;
+//    ping_init();
+//
+//    while(1)
+//    {
+//        ping_distance = ping_read();
+//    }
+}
+
+
