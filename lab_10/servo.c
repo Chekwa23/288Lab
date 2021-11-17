@@ -10,7 +10,8 @@ float degreesPosition = 90;
 
 
 unsigned int PB5 = 0x20;
-//Initialize time and setup PWM
+
+
 void servo_init()   
 {
     /* GPIO config: PB5 as digital output */
@@ -21,12 +22,12 @@ void servo_init()
     GPIO_PORTB_DEN_R |= PB5;
     GPIO_PORTB_PCTL_R |= 0x00070000;  
 
-    /* Timer 1B config: PWM mode, 8 bit prescalar, 16 bit countdown timer */
+    /* Timer 1B config: PWM & periodic mode, 8 bit prescalar, 16 bit countdown timer, falling edge */
 
     SYSCTL_RCGCTIMER_R |= 0b000010;  //Turn on the clock for timer1
-    TIMER1_CTL_R &= 0b011111111; //disable timer to config
-    TIMER1_TBMR_R |= 0b1010; //periodic and PWM enable and edge count
-    TIMER1_CTL_R &= ~0x4000; //Configure the output state of the PWM signal *non-inverted
+    TIMER1_CTL_R &= ~0b0100; //disable timerB for config
+    TIMER1_TBMR_R |= 0b1010; //periodic and PWM enable 
+    TIMER1_CTL_R &= ~0x4000; // ensure pwm output is not inverted
     TIMER1_CFG_R |= 0b00000100; //set size of timer to 16
 
     TIMER1_TBPR_R =  (pulsePeriod >> 16) & 0xFF;   //write the top 8 bits to the pre-scaler
@@ -47,7 +48,7 @@ void servo_init()
     TIMER1_IMR_R |= 0x900;
     NVIC_EN0_R |= 0x40000;
 
-    TIMER1_CTL_R |= 0b100000000;     //Re-enable the timer
+    TIMER1_CTL_R |= 0x0100;    //Re-enable the timer
 }
 
 
