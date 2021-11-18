@@ -24,12 +24,14 @@ void servo_init()
 
     /* Timer 1B config: PWM & periodic mode, 8 bit prescalar, 16 bit countdown timer, falling edge */
 
-    SYSCTL_RCGCTIMER_R |= 0b000010;  //Turn on the clock for timer1
-    TIMER1_CTL_R &= ~0b0100; //disable timerB for config
-    TIMER1_TBMR_R |= 0b1010; //periodic and PWM enable 
-    TIMER1_CTL_R &= ~0x4000; // ensure pwm output is not inverted
-    TIMER1_CFG_R |= 0b00000100; //set size of timer to 16
+    SYSCTL_RCGCTIMER_R |= 0b000010;
+    TIMER1_CTL_R &= ~0b0100;  // TBEN bit to 0x0 (disable)
+    
+    TIMER1_TBMR_R |= 0b1010; // TBAMS bit to 0x1, the TBCMR bit to 0x0, and the TBMR field to 0x2
+    TIMER1_CTL_R &= ~0x4000; // TBPWML bit to 0x0 (output is not inverted)
+    TIMER1_CFG_R |= 0x4; // 16-bit timer
 
+// TODO
     TIMER1_TBPR_R =  (pulsePeriod >> 16) & 0xFF;   //write the top 8 bits to the pre-scaler
     TIMER1_TBILR_R = pulsePeriod & 0xFFFF;    //write the lower 16 bits to Internal Load register
 
@@ -43,12 +45,12 @@ void servo_init()
     TIMER1_TBMATCHR_R = 0x3E80;   //set the remaining 16 bits in the match register
     //TIMER1_TBMATCHR_R = 0x5DC0;
 
-    //turn on interrupts
     TIMER1_ICR_R |= 0x900;
     TIMER1_IMR_R |= 0x900;
     NVIC_EN0_R |= 0x40000;
-
-    TIMER1_CTL_R |= 0x0100;    //Re-enable the timer
+ 
+ // END TO DO
+    TIMER1_CTL_R |= 0x0100;    // TBEN bit to 0x1 (enable)
 }
 
 
