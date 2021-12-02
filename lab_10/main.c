@@ -1,9 +1,3 @@
-
-
-/**
- * main.c
- */
-#define _RESET 1
 #define _PART1 0
 #define _PART2 0
 
@@ -22,11 +16,11 @@
 
 
 void main()   {
-#if _RESET
-    resetSimulationBoard();
-#else
-    timer_init();
-    lcd_init();
+// #if _RESET
+//     resetSimulationBoard();
+// #else
+//     timer_init();
+//     lcd_init();
 
 #if _PART1
     servo_init();

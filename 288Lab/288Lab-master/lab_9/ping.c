@@ -24,7 +24,7 @@ void ping_timer3b_init(void)
    /* Timer 3B config: input capture, count-down, 16 bit timer */
 
    SYSCTL_RCGCTIMER_R |= 0x8;
-   TIMER3_CTL_R &= ~0x0100; // disable for config
+   TIMER3_CTL_R &= ~0x0100; //disable timerB for config
    TIMER3_CFG_R = 0x4;
    TIMER3_TBMR_R = 0b0111;
    TIMER3_CTL_R |= 0x0C00; // capture both edges
